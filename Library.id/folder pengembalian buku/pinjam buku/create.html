@@ -1,0 +1,49 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>:Peminjaman</title>
+    </head>
+    <body>
+        <center>
+            <h2>Manajemen Peminjaman</h2>
+            <form action="proses_peminjaman.php" method="post">
+                <table>
+                    <tr>
+                        <td>Nama</td>
+                        <td>:</td>
+                        <td>
+                            <?php
+                            require_once "../koneksi.php";
+                            $query = $conn->query("SELECT * FROM anggota");?>
+                            <select name="id_anggota">
+                                <?php while($res = $query->fetch_assoc()): ?>
+                                <option value="<?php echo $res['id_anggota'] ?>"><?php echo $res['nama'] ?></option>
+                            <?php endwhile; ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Kode Buku</td>
+                        <td>:</td>
+                        <td>
+                            <?php $query2 = $conn->query("SELECT * FROM buku") ?>
+                            <select name="kode_buku">
+                                <?php while($res2 = $query2->fetch_assoc()): ?>
+                                    <option value="<?php echo $res2['kode_buku'] ?>"><?php echo $res2['kode_buku'] ?></option>
+                                <?php endwhile; ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <input type="submit" value="Simpan Peminjam">
+                            <input type="reset" value="Reset">
+                        </td>
+                    </tr>
+                </table>
+            </form>
+        </center>
+    </body>
+</html>
