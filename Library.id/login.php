@@ -27,7 +27,7 @@ if (isset($_GET["err"])) {
 </head>
 
 <body background="img/undraw_Bookshelves_re_lxoy.svg">
-    <!-- Navbar -->
+    <!-- Navbar  -->
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-danger justify-content-between">
         <a class="navbar-brand" href="#">Library.id</a>
