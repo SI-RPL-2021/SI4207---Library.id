@@ -1,0 +1,11 @@
+.bookbg {
+    background: url("../img/undraw_Books_l33t.svg") no-repeat center center;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}
+
+.text-outline {
+    text-shadow: 0px 0px 10px black;
+}
