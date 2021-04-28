@@ -92,7 +92,7 @@ if (isset($_GET["err"]))
                                 <input type="password" class="form-control" id="exampleInputPassword1" name="confirmpassword" required size="43px">
                             </div>
                             <div class="text-center">
-                                <button type="submit" class="btn btn-primary" name="register">SignUp</button>
+                                <button type="submit" class="btn btn-primary" name="register">Register</button>
                             </div>
                         </div>
                     </div>
