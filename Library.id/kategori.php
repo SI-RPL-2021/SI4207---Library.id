@@ -7,12 +7,17 @@ session_start();
 if ($_SESSION["role"] == "user")
 {
     $user = new User($db, $_SESSION["id"]);
-    require "view/homepage-user.php";
+    if (isset($_GET["k"]))
+    {
+        require "view/kategori_view.php";
+    }else{
+        require "view/kategori-user.php";
+    }
 }
 else
 {
     $admin = new Admin($db, $_SESSION["id"]);
-    require "view/tambahbuku.php";
+    require "view/kategori-admin.php";
 }
 
 ?>
