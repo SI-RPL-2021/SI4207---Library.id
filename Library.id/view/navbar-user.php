@@ -11,12 +11,10 @@
                 <li class="nav-item <?php echo $kategori ?? ""; ?>">
                     <a class="nav-link" href="kategori">Kategori</a>
                 </li>
-                <li class="nav-item <?php echo $buku ?? ""; ?>">
-                    <a class="nav-link" href="Produk">Buku</a>
-                </li>
                 <li class="nav-item <?php echo $profil ?? ""; ?>">
                     <a class="nav-link" href="Produk">Profil</a>
                 </li>
+
             </ul>
         </div>
         <div class="dropdown">

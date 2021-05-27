@@ -11,6 +11,7 @@
                 <li class="nav-item <?php echo $kategori ?? ""; ?>">
                     <a class="nav-link" href="kategori">Hapus Buku</a>
                 </li>
+
             </ul>
         </div>
         <div class="dropdown">
@@ -22,3 +23,4 @@
             </div>
         </div>
     </nav>
+
