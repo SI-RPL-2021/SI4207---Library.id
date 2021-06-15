@@ -8,10 +8,9 @@
             <li class="nav-item <?php echo $tambahbuku ?? ""; ?>">
                     <a class="nav-link" href="tambahbuku">Tambah Buku<span class="sr-only">(current)</span></a>
                 </li>
-                <li class="nav-item <?php echo $kategori ?? ""; ?>">
-                    <a class="nav-link" href="kategori">Hapus Buku</a>
+                <li class="nav-item <?php echo $listbuku ?? ""; ?>">
+                    <a class="nav-link" href="listbuku">List Buku</a>
                 </li>
-
             </ul>
         </div>
         <div class="dropdown">
@@ -23,4 +22,3 @@
             </div>
         </div>
     </nav>
-

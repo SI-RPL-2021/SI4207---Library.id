@@ -8,13 +8,18 @@
                 <li class="nav-item <?php echo $home ?? ""; ?>">
                     <a class="nav-link" href="homepage">Home<span class="sr-only">(current)</span></a>
                 </li>
+                <li class="nav-item <?php echo $bom ?? ""; ?>">
+                    <a class="nav-link" href="bookmonth">Book of the Month</a>
+                </li>
                 <li class="nav-item <?php echo $kategori ?? ""; ?>">
                     <a class="nav-link" href="kategori">Kategori</a>
                 </li>
-                <li class="nav-item <?php echo $profil ?? ""; ?>">
-                    <a class="nav-link" href="Produk">Profil</a>
+                <li class="nav-item <?php echo $dipinjam ?? ""; ?>">
+                    <a class="nav-link" href="dipinjam">Dipinjam</a>
                 </li>
-
+                <li class="nav-item <?php echo $profil ?? ""; ?>">
+                    <a class="nav-link" href="profil">Profil</a>
+                </li>
             </ul>
         </div>
         <div class="dropdown">
@@ -22,8 +27,7 @@
                 Hi, <?php echo $user->nama; ?>
             </button>
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-                <a class="dropdown-item" href="#">Profil</a>
-                <a class="dropdown-item" href="#">Ganti Password</a>
+                <a class="dropdown-item" href="profil">Profil</a>
                 <a class="dropdown-item" href="actions/logout">Log Out</a>
             </div>
         </div>
