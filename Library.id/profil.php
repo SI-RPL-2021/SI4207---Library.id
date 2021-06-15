@@ -7,12 +7,7 @@ session_start();
 if ($_SESSION["role"] == "user")
 {
     $user = new User($db, $_SESSION["id"]);
-    if (isset($_GET["k"]))
-    {
-        require "view/kategori_view.php";
-    }else{
-        require "view/kategori-user.php";
-    }
+    require "view/profil.php";
 }
 else
 {
@@ -21,4 +16,3 @@ else
 }
 
 ?>
-
