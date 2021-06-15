@@ -11,6 +11,7 @@ if (isset($_GET["err"])) {
     }
 }
 
+
 ?>
 <!doctype html>
 <html lang="en">
@@ -27,7 +28,7 @@ if (isset($_GET["err"])) {
 </head>
 
 <body background="img/undraw_Bookshelves_re_lxoy.svg">
-    <!-- Navbar  -->
+    <!-- Navbar -->
 
     <nav class="navbar navbar-expand-lg navbar-dark bg-danger justify-content-between">
         <a class="navbar-brand" href="#">Library.id</a>
@@ -51,6 +52,17 @@ if (isset($_GET["err"])) {
             <div class="row">
                 <div class="col">
                     <div class="card">
+                    <?php
+    if (isset($_GET["justregistered"]))
+    {
+        echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+        Sukses membuat akun, silahkan login
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>';
+    }
+    ?>
                         <?php echo $alert; ?>
                         <div class="card-body">
                             <h1 class="mt-4 text-center">Login</h1><br>

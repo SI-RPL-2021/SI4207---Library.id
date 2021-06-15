@@ -12,7 +12,6 @@
     <title>Homepage - Library.id</title>
 </head>
 
-
 <body style="background-color: rgb(243, 243, 243);">
     <!-- Navbar -->
     <?php
@@ -26,23 +25,30 @@
         <?php
         $kat = new Kategori($db);
         $res = $kat->getBukuByKategori($_GET["k"]);
-        if ($res->num_rows == 0)
-        {
-            echo "<p>Tidak ada buku</p>";
-        }
+        $i = 0;
         while ($k = $res->fetch_assoc())
         {
-            $buku = new Buku($db);
-            $buku = $buku->getBukuById($k["id_buku"]);
-            echo '
-            <div class="col d-flex justify-content-center">
-            <div class="card" style="width: 12rem;">
-  <img class="card-img-top" src="foto_buku/'.$buku["foto"].'" alt="Card image cap">
-  <div class="card-body">
-    <a href="preview?id='.$buku["id"].'" class="btn btn-primary w-100">Preview</a>
-  </div>
-</div>
-            </div>';
+            $aaa = $db->conn->query("SELECT * FROM peminjaman WHERE user_id = ".$user->id." AND buku_id = ".$k["id_buku"]);
+            if ($aaa->num_rows == 0)
+            {
+                $i++;
+                $buku = new Buku($db);
+                $buku = $buku->getBukuById($k["id_buku"]);
+                echo '
+                <div class="col d-flex justify-content-center">
+                <div class="card" style="width: 12rem;">
+      <img class="card-img-top" src="foto_buku/'.$buku["foto"].'" alt="Card image cap">
+      <div class="card-body">
+        <a href="preview?id='.$buku["id"].'" class="btn btn-primary w-100 mb-3">Preview</a>
+        <a href="pinjam?id='.$buku["id"].'" class="btn btn-primary w-100">Pinjam</a>
+      </div>
+    </div>
+                </div>';
+            }
+        }
+        if ($res->num_rows == 0 || $i == 0)
+        {
+            echo "<p>Tidak ada buku atau buku sedang anda pinjam</p>";
         }
 
         ?>

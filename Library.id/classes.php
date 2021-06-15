@@ -77,7 +77,7 @@ class RegisterUser
 
 class User
 {
-    public $db,$nama,$username,$email,$no_ktp,$no_telp,$password;
+    public $db,$id,$nama,$username,$email,$no_ktp,$no_telp,$password;
 
     function __construct(DB $db,$id)
     {
@@ -91,12 +91,24 @@ class User
         $stmt->execute();
         $res = $stmt->get_result();
         $data = $res->fetch_assoc();
+        $this->id = $data["id"];
         $this->nama = $data["nama"];
         $this->username = $data["username"];
         $this->email = $data["email"];
         $this->no_ktp = $data["no_ktp"];
         $this->no_telp = $data["no_telp"];
         $this->password = $data["password"];
+    }
+
+    function edit()
+    {
+        $stmt = $this->db->query(
+            "UPDATE user SET nama=?,no_telp=?,email=?,password=? WHERE id = ?",
+            "ssssi",
+            $this->nama,$this->no_telp,$this->email,$this->password,$this->id
+        );
+
+        $stmt->execute();
     }
 }
 
@@ -189,15 +201,44 @@ class Kategori
         return $res;
     }
 
+    public function deleteBukuFromKategori($kat,$id)
+    {
+        $stmt = $this->db->query(
+            "DELETE FROM ktgr_$kat WHERE id_buku = ?",
+            "i",
+            $id
+        );
+        $stmt->execute();
+    }
+
+    public function cekIfBukuAdaByKategori($kat,$id_buku)
+    {
+        $res = $this->db->conn->query(
+            "SELECT * FROM ktgr_$kat WHERE id_buku = ".$id_buku
+        );
+
+        return $res->fetch_assoc();
+    }
+
 }
 
 class Buku
 {
-    public $db,$judul,$pengarang,$foto,$preview;
+    public $db,$id,$judul,$pengarang,$foto,$preview,$buku,$total_peminjam;
 
     function __construct(DB $db)
     {
         $this->db = $db;
+    }
+
+    function delete()
+    {
+        $stmt = $this->db->query(
+            "DELETE FROM buku WHERE id = ?",
+            "i",
+            $this->id
+        );
+        $stmt->execute();
     }
 
     function getBukuById($id)
@@ -219,12 +260,29 @@ class Buku
         $this->foto = $foto_name;
     }
 
+    function uploadBuku($buku)
+    {
+        $buku_name = strval(rand(1,999999)).$buku["name"].".libraryid";
+        move_uploaded_file($buku["tmp_name"],"../file_buku/".$buku_name);
+        $this->buku = $buku_name;
+    }
+
+    function edit()
+    {
+        $stmt = $this->db->query(
+            "UPDATE buku SET judul=?,total_peminjam=?,pengarang=?,foto=?,preview=?,buku=? WHERE id = ?",
+            "sissssi",
+            $this->judul,$this->total_peminjam,$this->pengarang,$this->foto,$this->preview,$this->buku,$this->id
+        );
+        $stmt->execute();
+    }
+
     function tambah($kat)
     {
         $stmt = $this->db->query(
-            "INSERT INTO buku (judul,pengarang,foto,preview) VALUES (?,?,?,?)",
-            "ssss",
-            $this->judul,$this->pengarang,$this->foto,$this->preview
+            "INSERT INTO buku (judul,pengarang,foto,preview,buku) VALUES (?,?,?,?,?)",
+            "sssss",
+            $this->judul,$this->pengarang,$this->foto,$this->preview,$this->buku
         );
         $stmt->execute();
         $insertid = $stmt->insert_id;
@@ -243,5 +301,57 @@ class Buku
         }
 
         
+    }
+}
+
+class Peminjaman {
+    public $db,$id,$user_id,$buku_id,$tanggal_peminjaman,$tanggal_selesai_peminjaman;
+
+    function __construct(DB $db)
+    {
+        $this->db = $db;
+    }
+
+    function tambah()
+    {
+        $stmt = $this->db->query(
+            "INSERT INTO peminjaman (user_id,buku_id,tanggal_peminjaman,tanggal_selesai_peminjaman) VALUES (?,?,?,?)",
+            "iiss",
+            $this->user_id,$this->buku_id,$this->tanggal_peminjaman,$this->tanggal_selesai_peminjaman
+        );
+        $stmt->execute();
+        $insertid = $stmt->insert_id;
+    }
+
+    function getBukuDiPinjam($user_id)
+    {
+        $res = $this->db->conn->query(
+            "SELECT buku.id as buku_id, buku.judul, peminjaman.tanggal_selesai_peminjaman, peminjaman.tanggal_peminjaman, peminjaman.id as peminjaman_id, buku.pengarang FROM peminjaman INNER JOIN buku ON buku.id = peminjaman.buku_id WHERE peminjaman.user_id = ".$user_id
+        );
+
+        $has = [];
+
+        while ($d = $res->fetch_assoc())
+        {
+            array_push($has,$d);
+        }
+
+        return $has;
+    }
+
+    function deleteIf3HariSudahBerlalu()
+    {
+        $check = strtotime(date("Y-m-d"));
+        $p = $this->db->conn->query("SELECT * FROM peminjaman");
+        foreach ($p as $k=>$v)
+        {
+            $start = strtotime($v["tanggal_peminjaman"]);
+            $end = strtotime($v["tanggal_selesai_peminjaman"]);
+            $passed = (($check <= $end));
+            if (!$passed)
+            {
+                $this->db->conn->query("DELETE FROM peminjaman WHERE id = ".$v["id"]);
+            }
+        }
     }
 }

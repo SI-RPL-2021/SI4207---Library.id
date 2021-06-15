@@ -19,4 +19,4 @@ $reg->password = $_POST["password"];
 
 $user = $reg->register();
 
-header("Location: ../login");
+header("Location: ../login?justregistered=1");

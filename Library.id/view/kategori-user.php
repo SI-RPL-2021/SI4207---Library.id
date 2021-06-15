@@ -12,7 +12,6 @@
     <title>Homepage - Library.id</title>
 </head>
 
-
 <body style="background-color: rgb(243, 243, 243);">
     <!-- Navbar -->
     <?php

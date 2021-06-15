@@ -21,8 +21,6 @@
     <br>
 
     <div class="container mt-3">
-<<<<<<< HEAD
-=======
     <?php
         if (isset($_GET["success"]))
         {
@@ -45,7 +43,6 @@
         </div>';
         }
         ?>
->>>>>>> Uwi
         <form method="post" action="actions/editprofil">
             <div class="mb-3">
                 <p>Nama</p>
@@ -71,10 +68,6 @@
         </form>
 
     </div>
-<<<<<<< HEAD
-=======
-/
->>>>>>> Uwi
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>

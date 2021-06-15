@@ -12,7 +12,6 @@
     <title>Homepage - Library.id</title>
 </head>
 
-
 <body style="background-color: rgb(243, 243, 243);">
     <!-- Navbar -->
     <?php
@@ -33,28 +32,33 @@
             <?php
 
             $res = $db->conn->query("SELECT * FROM buku ORDER BY RAND() LIMIT 3");
-            if ($res->num_rows == 0)
-            {
-                echo "<p class='ml-5 pl-5 mt-5'>Tidak ada buku, silahkan input buku</p>";
-            }
             $i = 0;
             while ($d = $res->fetch_assoc())
             {
-                $i++;
-                echo '<div class="carousel-item '.(($i == 1) ? "active":"").'">
-                <div class="row bg-light">
-                    <div class="col">
-                        <img class="d-block w-100" src="foto_buku/'.$d["foto"].'" height="400px" alt="First slide">
+                $aaa = $db->conn->query("SELECT * FROM peminjaman WHERE user_id = ".$user->id." AND buku_id = ".$d["id"]);
+                if ($aaa->num_rows == 0)
+                {
+                    $i++;
+                    echo '<div class="carousel-item '.(($i == 1) ? "active":"").'">
+                    <div class="row bg-light">
+                        <div class="col">
+                            <img class="d-block w-100" src="foto_buku/'.$d["foto"].'" height="400px" alt="First slide">
+                        </div>
+                        <div class="col bg-white p-5">
+                        <h5 class="font-weight-bold">Judul : '.$d["judul"].'</h5>
+                        <br>
+                        <h5 class="font-weight-bold">Pencipta : '.$d["pengarang"].'</h5>
+                        <br>
+                        <a href="preview?id='.$d["id"].'" class="btn btn-outline-dark">Preview</a>
+                        <a href="pinjam?id='.$d["id"].'" class="btn btn-outline-dark">Pinjam</a>
+                        </div>
                     </div>
-                    <div class="col bg-white p-5">
-                    <h5 class="font-weight-bold">Judul : '.$d["judul"].'</h5>
-                    <br>
-                    <h5 class="font-weight-bold">Pencipta : '.$d["pengarang"].'</h5>
-                    <br>
-                    <a href="preview?id='.$d["id"].'" class="btn btn-outline-dark">Preview</a>
-                    </div>
-                </div>
-            </div>';
+                </div>';
+                }
+            }
+            if ($i == 0 || $res->num_rows == 0)
+            {
+                echo "<p class='ml-5 pl-5 mt-5'>Tidak ada buku atau buku sedang anda pinjam</p>";
             }
             ?>
             
@@ -70,27 +74,43 @@
     </div>
 
     <div class="container my-5">
-        <h1>Book Of The Month</h1>
+        <h1>Book Of The Month <span><a href="bookmonth" class="btn btn-danger">See more</a></span></h1>
         <div class="row mt-5">
         <?php
-        $res = $db->conn->query("SELECT * FROM buku WHERE MONTH(created_at) = MONTH(CURDATE()) AND YEAR(created_at) = YEAR(CURDATE()) LIMIT 5");
+        $res = $db->conn->query("SELECT * FROM buku WHERE MONTH(created_at) = MONTH(CURDATE()) AND YEAR(created_at) = YEAR(CURDATE()) ORDER BY buku.total_peminjam DESC LIMIT 5");
+        
+
+        if ($res)
+        {
+            $i = 0;
+            while ($k = $res->fetch_assoc())
+            {
+                
+                $okk = '<a href="pinjam?id='.$k["id"].'" class="btn btn-outline-dark w-100">Pinjam</a>';
+                $aaa = $db->conn->query("SELECT * FROM peminjaman WHERE user_id = ".$user->id." AND buku_id = ".$k["id"]);
+                if ($aaa->num_rows > 0)
+                {
+                    $okk = "";
+                }
+                echo '
+                <div class="col mx-2 d-flex justify-content-center">
+                    <div class="card" style="width: 10rem;">
+                        <div class="w-100 d-flex justify-content-center">
+                            <img class="card-img-top w-100" src="foto_buku/'.$k["foto"].'">
+                        </div>
+                        <div class="card-body">
+                            <a href="preview?id='.$k["id"].'" class="btn btn-outline-dark w-100 mb-3">Preview</a>
+                            
+                            '.$okk.'
+                        </div>
+                    </div>
+                </div>';
+            }
+        }
+        
         if ($res->num_rows == 0)
         {
-            echo "<p>Tidak ada buku, silahkan input buku</p>";
-        }
-        while ($k = $res->fetch_assoc())
-        {
-            echo '
-            <div class="col mx-2 d-flex justify-content-center">
-                <div class="card" style="width: 10rem;">
-                    <div class="w-100 d-flex justify-content-center">
-                        <img class="card-img-top w-100" src="foto_buku/'.$k["foto"].'">
-                    </div>
-                    <div class="card-body">
-                        <a href="preview?id='.$k["id"].'" class="btn btn-outline-dark w-100">Preview</a>
-                    </div>
-                </div>
-            </div>';
+            echo "<p class='ml-5 pl-5 mt-5'>Tidak ada buku atau buku sedang anda pinjam</p>";
         }
 
         ?>

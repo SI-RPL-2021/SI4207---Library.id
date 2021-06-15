@@ -14,9 +14,5 @@ else
     $admin = new Admin($db, $_SESSION["id"]);
     require "view/kategori-admin.php";
 }
-<<<<<<< HEAD
 
-=======
-//
->>>>>>> Uwi
 ?>

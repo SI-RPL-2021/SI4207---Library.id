@@ -12,8 +12,6 @@
     <title>Preview - Library.id</title>
 </head>
 
-
-
 <body style="background-color: rgb(243, 243, 243);">
     <!-- Navbar -->
     <?php
@@ -25,9 +23,18 @@
 		<div class="col mt-3 bg-white p-3 shadow rounded mb-3 mr-3">
 			<p>PREVIEW BUKU</p>
 			<div class="d-flex justify-content-center flex-row">
-			<img class="shadow rounded" width="200px" src="foto_buku/<?php echo $book["foto"]; ?>">
+			<img class="shadow rounded mb-3" width="200px" src="foto_buku/<?php echo $book["foto"]; ?>">
 			
 			</div>
+            <?php
+            $aaa = $db->conn->query("SELECT * FROM peminjaman WHERE user_id = ".$user->id." AND buku_id = ".$book["id"]);
+            if ($aaa->num_rows == 0)
+            {
+                ?>
+                <a href="pinjam?id=<?php echo $book["id"] ?>" class="btn btn-primary">Pinjam Buku</a>
+                <?php
+            }
+            ?>
 			<h1><?php echo $book["judul"]; ?></h1>
 			<h5 class="text-muted"><?php echo $book["pengarang"]; ?></h5>
 			<div style="white-space:pre-wrap;"><?php echo $book["preview"]; ?></div>
