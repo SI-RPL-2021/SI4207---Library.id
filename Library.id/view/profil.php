@@ -21,6 +21,31 @@
     <br>
 
     <div class="container mt-3">
+<<<<<<< HEAD
+=======
+    <?php
+        if (isset($_GET["success"]))
+        {
+            echo '<div class="alert alert-success alert-dismissible fade show" role="alert">
+            Sukses mengedit profil
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>';
+        }
+        ?>
+    <?php
+        if (isset($_GET["fail"]))
+        {
+            echo '<div class="alert alert-danger alert-dismissible fade show" role="alert">
+            Password lama salah
+            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>';
+        }
+        ?>
+>>>>>>> Uwi
         <form method="post" action="actions/editprofil">
             <div class="mb-3">
                 <p>Nama</p>
@@ -46,6 +71,10 @@
         </form>
 
     </div>
+<<<<<<< HEAD
+=======
+/
+>>>>>>> Uwi
 
     <!-- Option 1: Bootstrap Bundle with Popper -->
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
